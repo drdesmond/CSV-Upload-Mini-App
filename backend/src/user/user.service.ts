@@ -168,6 +168,37 @@ export class UserService {
     return csvRows.join('\n');
   }
 
+  async saveRevalidatedUser(data: Partial<User>): Promise<User> {
+    try {
+      // Validate the user data first
+      const userDto = plainToClass(CreateUserDto, data);
+      const errors = await validate(userDto);
+
+      if (errors.length > 0) {
+        throw new Error('Invalid user data provided');
+      }
+
+      // Check age
+      const birthDate = new Date(userDto.birthdate);
+      const age = this.calculateAge(birthDate);
+      if (age < 13) {
+        throw new Error('User must be at least 13 years old');
+      }
+
+      // Check for existing email
+      const existingUser = await this.memoryStore.findUserByEmail(userDto.email);
+      if (existingUser) {
+        throw new Error('Email already exists in database');
+      }
+
+      // Save the user to storage
+      const savedUser = await this.memoryStore.createUser(userDto);
+      return savedUser;
+    } catch (error) {
+      throw new Error(error instanceof Error ? error.message : 'Failed to save revalidated user');
+    }
+  }
+
   private async parseCsv(csvContent: string): Promise<any[]> {
     return new Promise((resolve, reject) => {
       parse(

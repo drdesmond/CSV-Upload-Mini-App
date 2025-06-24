@@ -36,8 +36,8 @@ import { ref } from 'vue';
 import FileUploader from '@/components/FileUploader.vue';
 import ValidUsers from '@/components/ValidUsers.vue';
 import InvalidUsers from '@/components/InvalidUsers.vue';
-import type { UploadResponse } from '@/types/User';
-import { downloadCsv as downloadCsvApi, revalidateUser } from '@/api';
+import type { UploadResponse, User } from '@/types/User';
+import { downloadCsv as downloadCsvApi, revalidateUser, saveRevalidatedUser } from '@/api';
 
 const uploadResult = ref<UploadResponse | null>(null);
 
@@ -55,10 +55,21 @@ const handleRevalidate = async (data: any, rowIndex: number) => {
   try {
     const result = await revalidateUser(data);
     if (result.valid && uploadResult.value) {
-      // Update the invalid users list
+      // Save the revalidated user to backend storage
+      const savedUser = await saveRevalidatedUser(data);
+
+      // Add the user to the valid users list with the saved user data
+      uploadResult.value.valid.push(savedUser);
+
+      // Remove the user from the invalid users list
       uploadResult.value.invalid = uploadResult.value.invalid.filter(
         (user) => user.rowIndex !== rowIndex,
       );
+
+      console.log(`User from row ${rowIndex} successfully revalidated and saved to backend`);
+    } else if (result.errors) {
+      // Handle server-side validation errors
+      console.error('Server validation errors:', result.errors);
     }
   } catch (error) {
     console.error('Revalidation error:', error);

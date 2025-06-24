@@ -54,6 +54,18 @@ export class UserController {
   }
 
   /**
+   * Save a revalidated user to storage
+   *
+   * @param {Partial<User>} data
+   * @return {*}  {Promise<User>}
+   * @memberof UserController
+   */
+  @Post('save-revalidated')
+  async saveRevalidatedUser(@Body() data: Partial<User>): Promise<User> {
+    return this.userService.saveRevalidatedUser(data);
+  }
+
+  /**
    *
    *
    * @param {Response} res

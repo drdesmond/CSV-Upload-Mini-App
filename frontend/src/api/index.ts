@@ -51,6 +51,29 @@ export async function revalidateUser(data: Partial<User>): Promise<ValidateRespo
 }
 
 /**
+ * Save a revalidated user to backend storage
+ *
+ * @export
+ * @param {Partial<User>} data
+ * @return {*}  {Promise<User>}
+ */
+export async function saveRevalidatedUser(data: Partial<User>): Promise<User> {
+  const response = await fetch(`${API_BASE_URL}/save-revalidated`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to save revalidated user: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
+/**
  *
  *
  * @export
