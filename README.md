@@ -11,6 +11,8 @@ A modern web application for uploading, validating, and managing CSV files conta
 - **Dry Run Mode**: Test uploads without saving to database
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 - **Clean Architecture**: Streamlined codebase with no unused dependencies
+- **Expandable Components**: Collapsible panels for Valid and Invalid Users sections
+- **Data Persistence**: Form data automatically saved and restored when panels are closed/reopened
 
 ## 🛠️ Tech Stack
 
@@ -200,20 +202,44 @@ Download all valid users as a CSV file.
 
 ### 2. Review Results
 
-- **Valid Users**: Successfully validated records are displayed in a table
-- **Invalid Users**: Records with errors are shown with detailed error messages
+- **Valid Users**: Successfully validated records are displayed in an expandable table
+- **Invalid Users**: Records with errors are shown in an expandable section with detailed error messages
+- **Collapsible Sections**: Click the chevron icon next to section headers to expand/collapse content
 
 ### 3. Fix Invalid Records
 
-- Click on any invalid record to edit the data inline
-- VeeValidate provides real-time validation with error messages
-- Fix the errors and click "Revalidate"
-- Successfully fixed records will be moved to the valid users list
+- **Expand Invalid Users Section**: Click the chevron to expand the invalid users panel
+- **Edit Data Inline**: Click on any invalid record to edit the data with real-time validation
+- **Data Persistence**: Your edits are automatically saved and persist when you close/reopen the panel
+- **Real-time Validation**: VeeValidate provides instant feedback with error messages and visual indicators
+- **Reset Option**: Use the "Reset" button to clear your changes and return to original data
+- **Revalidate**: Fix the errors and click "Revalidate" to process the corrected data
+- **Success**: Successfully fixed records will be moved to the valid users list
 
 ### 4. Export Data
 
-- Click "Download CSV" to export all valid users
-- The exported file will contain all successfully saved records
+- **Expand Valid Users Section**: Click the chevron to expand the valid users panel
+- **Download CSV**: Click "Download CSV" to export all valid users
+- **File Format**: The exported file will contain all successfully saved records in CSV format
+
+## 🆕 Latest Features
+
+### 📋 Expandable/Collapsible Components
+
+- **Valid Users Panel**: Expandable table showing all successfully validated users
+- **Invalid Users Panel**: Expandable section for editing invalid records
+- **Smooth Animations**: Vue transitions provide smooth expand/collapse animations
+- **Visual Indicators**: Chevron icons rotate to indicate panel state
+- **Space Efficient**: Users can hide sections to focus on relevant content
+
+### 💾 Data Persistence
+
+- **Automatic Saving**: Form data is automatically saved to browser localStorage as you type
+- **Session Persistence**: Your edits persist when closing and reopening panels
+- **Per-Row Storage**: Each invalid user row has its own storage space
+- **Smart Cleanup**: Saved data is automatically removed after successful validation
+- **Manual Reset**: "Reset" button clears both form data and saved storage
+- **Error Recovery**: Graceful fallback if localStorage is unavailable
 
 ## Automated Testing Strategy
 

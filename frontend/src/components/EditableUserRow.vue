@@ -118,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { revalidateUser } from '@/api';
 import { userSchema, type UserFormData } from '@/validation/userSchema';
@@ -133,30 +133,83 @@ const emit = defineEmits<{
   revalidate: [data: Partial<User>, rowIndex: number];
 }>();
 
-const editedData = ref<UserFormData>({
-  first_name: props.userData.first_name ?? '',
-  last_name: props.userData.last_name ?? '',
-  email: props.userData.email ?? '',
-  birthdate: props.userData.birthdate ?? '',
-  phone_number: props.userData.phone_number ?? '',
-});
+// Create a unique key for this row to persist data
+const getStorageKey = (rowIndex: number): string => `editable-user-${rowIndex}`;
 
-// Reset data when props change
+// Initialize edited data from localStorage or props
+const initializeEditedData = (): UserFormData => {
+  const storageKey = getStorageKey(props.rowIndex);
+  const savedData = localStorage.getItem(storageKey);
+
+  if (savedData) {
+    try {
+      const parsed = JSON.parse(savedData);
+      return {
+        first_name: parsed.first_name ?? props.userData.first_name ?? '',
+        last_name: parsed.last_name ?? props.userData.last_name ?? '',
+        email: parsed.email ?? props.userData.email ?? '',
+        birthdate: parsed.birthdate ?? props.userData.birthdate ?? '',
+        phone_number: parsed.phone_number ?? props.userData.phone_number ?? '',
+      };
+    } catch (error) {
+      console.warn('Failed to parse saved data for row', props.rowIndex, error);
+    }
+  }
+
+  // Fallback to original data
+  return {
+    first_name: props.userData.first_name ?? '',
+    last_name: props.userData.last_name ?? '',
+    email: props.userData.email ?? '',
+    birthdate: props.userData.birthdate ?? '',
+    phone_number: props.userData.phone_number ?? '',
+  };
+};
+
+const editedData = ref<UserFormData>(initializeEditedData());
+
+// Save data to localStorage whenever it changes
+const saveToStorage = (data: UserFormData) => {
+  const storageKey = getStorageKey(props.rowIndex);
+  localStorage.setItem(storageKey, JSON.stringify(data));
+};
+
+// Watch for changes and save to localStorage
+watch(
+  editedData,
+  (newData) => {
+    saveToStorage(newData);
+  },
+  { deep: true },
+);
+
+// Only reset data when props change if we don't have saved data
 watch(
   () => props.userData,
   (newData) => {
-    editedData.value = {
-      first_name: newData.first_name ?? '',
-      last_name: newData.last_name ?? '',
-      email: newData.email ?? '',
-      birthdate: newData.birthdate ?? '',
-      phone_number: newData.phone_number ?? '',
-    };
+    const storageKey = getStorageKey(props.rowIndex);
+    const savedData = localStorage.getItem(storageKey);
+
+    // Only reset if there's no saved data for this row
+    if (!savedData) {
+      editedData.value = {
+        first_name: newData.first_name ?? '',
+        last_name: newData.last_name ?? '',
+        email: newData.email ?? '',
+        birthdate: newData.birthdate ?? '',
+        phone_number: newData.phone_number ?? '',
+      };
+    }
   },
   { deep: true },
 );
 
 const resetData = () => {
+  // Clear saved data from localStorage
+  const storageKey = getStorageKey(props.rowIndex);
+  localStorage.removeItem(storageKey);
+
+  // Reset to original data
   editedData.value = {
     first_name: props.userData.first_name ?? '',
     last_name: props.userData.last_name ?? '',
@@ -170,6 +223,10 @@ const handleRevalidate = async (values: UserFormData) => {
   try {
     const result = await revalidateUser(values);
     if (result.valid) {
+      // Clear saved data after successful revalidation
+      const storageKey = getStorageKey(props.rowIndex);
+      localStorage.removeItem(storageKey);
+
       // Emit the revalidation event with the fixed data
       emit('revalidate', values, props.rowIndex);
     } else if (result.errors) {
