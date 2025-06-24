@@ -55,9 +55,17 @@ cd CSV-Upload-Mini-App
 cd backend
 npm install
 
+# Copy environment file for backend
+cp .env.example .env
+# Edit .env file with your configuration if needed
+
 # Install frontend dependencies
 cd ../frontend
 npm install
+
+# Copy environment file for frontend
+cp .env.example .env
+# Edit .env file with your configuration if needed
 ```
 
 ### 3. Start the development servers
