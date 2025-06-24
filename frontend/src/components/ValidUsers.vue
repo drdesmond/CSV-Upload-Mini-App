@@ -80,15 +80,15 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from '@/types/User'
+import type { User } from '@/types/User';
 
 defineProps<{
-  users: User[]
-}>()
+  users: User[];
+}>();
 
 defineEmits<{
-  'download-csv': []
-}>()
+  'download-csv': [];
+}>();
 
 const tableHeaders = [
   { key: 'first_name', label: 'First Name' },
@@ -97,15 +97,15 @@ const tableHeaders = [
   { key: 'birthdate', label: 'Birthdate' },
   { key: 'phone_number', label: 'Phone Number' },
   { key: 'created_at', label: 'Created At' },
-]
+];
 
 const formatDate = (date: string | Date): string => {
-  if (!date) return '-'
-  const dateObj = typeof date === 'string' ? new Date(date) : date
+  if (!date) return '-';
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
   return dateObj.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
-  })
-}
+  });
+};
 </script>

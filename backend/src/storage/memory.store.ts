@@ -21,14 +21,6 @@ export class MemoryStore {
   }
 
   async findUserByEmail(email: string): Promise<User | undefined> {
-    return this.users.find(user => user.email === email);
+    return this.users.find((user) => user.email === email);
   }
-
-  async clearUsers(): Promise<void> {
-    this.users = [];
-  }
-
-  async getUserCount(): Promise<number> {
-    return this.users.length;
-  }
-} 
+}

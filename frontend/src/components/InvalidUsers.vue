@@ -66,18 +66,18 @@
 </template>
 
 <script setup lang="ts">
-import EditableUserRow from './EditableUserRow.vue'
-import type { InvalidUserRow } from '@/types/User'
+import EditableUserRow from './EditableUserRow.vue';
+import type { InvalidUserRow } from '@/types/User';
 
 defineProps<{
-  invalidUsers: InvalidUserRow[]
-}>()
+  invalidUsers: InvalidUserRow[];
+}>();
 
 const emit = defineEmits<{
-  revalidate: [data: any, rowIndex: number]
-}>()
+  revalidate: [data: any, rowIndex: number];
+}>();
 
 const handleRevalidate = (data: any, rowIndex: number) => {
-  emit('revalidate', data, rowIndex)
-}
+  emit('revalidate', data, rowIndex);
+};
 </script>

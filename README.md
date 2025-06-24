@@ -5,11 +5,12 @@ A modern web application for uploading, validating, and managing CSV files conta
 ## 🚀 Features
 
 - **Drag & Drop Upload**: Intuitive file upload with drag-and-drop support
-- **Real-time Validation**: Instant validation of user data with detailed error messages
-- **Inline Editing**: Edit invalid records directly in the interface
+- **Real-time Validation**: Instant validation of user data with detailed error messages using VeeValidate
+- **Inline Editing**: Edit invalid records directly in the interface with form validation
 - **CSV Export**: Download all valid users as a CSV file
 - **Dry Run Mode**: Test uploads without saving to database
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Clean Architecture**: Streamlined codebase with no unused dependencies
 
 ## 🛠️ Tech Stack
 
@@ -19,7 +20,8 @@ A modern web application for uploading, validating, and managing CSV files conta
 - **TypeScript** for type safety
 - **Tailwind CSS** for styling
 - **Vite** for fast development and building
-- **Axios** for API communication
+- **VeeValidate** for form validation with Yup schemas
+- **Fetch** for API communication
 
 ### Backend
 
@@ -28,6 +30,7 @@ A modern web application for uploading, validating, and managing CSV files conta
 - **Class Validator** for data validation
 - **CSV Parse** for CSV processing
 - **Multer** for file uploads
+- **In-memory Storage** for data persistence during session
 
 ## 📋 Requirements
 
@@ -104,6 +107,7 @@ csv-upload-mini-app/
 │   │   │   └── EditableUserRow.vue
 │   │   ├── api/          # API service
 │   │   ├── types/        # TypeScript types
+│   │   ├── validation/   # VeeValidate schemas
 │   │   ├── views/        # Page components
 │   │   └── App.vue
 │   └── package.json
@@ -186,10 +190,6 @@ Validate a single user record.
 
 Download all valid users as a CSV file.
 
-### GET `/users`
-
-Get all saved users.
-
 ## 🎯 Usage Guide
 
 ### 1. Upload a CSV File
@@ -206,6 +206,7 @@ Get all saved users.
 ### 3. Fix Invalid Records
 
 - Click on any invalid record to edit the data inline
+- VeeValidate provides real-time validation with error messages
 - Fix the errors and click "Revalidate"
 - Successfully fixed records will be moved to the valid users list
 
@@ -224,27 +225,39 @@ A sample CSV file (`sample-users.csv`) is included for testing. It contains:
 
 ## 🔒 Validation Rules
 
-### Email Validation
+### Frontend Validation (VeeValidate + Yup)
 
-- Must be a valid email format
-- Must be unique across all users
-- Must be unique within the same upload
+- **Real-time validation** as users type
+- **Visual feedback** with red borders on invalid fields
+- **Custom error messages** for each field
+- **Age validation** ensuring users are 13+ years old
+- **Email format validation** with proper email regex
+- **Phone number validation** with international format support
 
-### Age Validation
+### Backend Validation (Class Validator)
 
-- Users must be at least 13 years old
-- Birthdate must be in ISO format (YYYY-MM-DD)
+- **Email Validation**: Must be valid format and unique across all users
+- **Age Validation**: Users must be at least 13 years old
+- **Phone Number Validation**: 7-15 digits with optional + prefix
+- **Required Fields**: All fields are required and non-empty
 
-### Phone Number Validation
+## 🏗️ Architecture Highlights
 
-- Must be 7-15 digits
-- Optional + prefix allowed
-- No spaces or special characters
+### Frontend Architecture
 
-### Required Fields
+- **Component-based design** with Vue 3 Composition API
+- **VeeValidate integration** for robust form validation
+- **TypeScript throughout** for type safety
+- **Local state management** using Vue's reactive system
+- **Clean API layer** with fetch-based HTTP client
 
-- All fields are required
-- Empty or missing fields will cause validation errors
+### Backend Architecture
+
+- **NestJS modular structure** with dependency injection
+- **DTO-based validation** with Class Validator decorators
+- **In-memory storage** for session-based data persistence
+- **CSV processing** with robust error handling
+- **Global validation pipes** for consistent data validation
 
 ## 🚀 Deployment
 

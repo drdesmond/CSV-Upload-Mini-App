@@ -1,4 +1,14 @@
-import { Controller, Post, Get, Body, UploadedFile, UseInterceptors, Query, Res, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  UploadedFile,
+  UseInterceptors,
+  Query,
+  Res,
+  BadRequestException,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { UserService } from './user.service';
@@ -8,12 +18,17 @@ import { User, ValidateResponse } from './user.schema';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  /**
+   *
+   *
+   * @param {Express.Multer.File} file
+   * @param {string} [dryRun]
+   * @return {*}
+   * @memberof UserController
+   */
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadCsv(
-    @UploadedFile() file: Express.Multer.File,
-    @Query('dryRun') dryRun?: string
-  ) {
+  async uploadCsv(@UploadedFile() file: Express.Multer.File, @Query('dryRun') dryRun?: string) {
     if (!file) {
       throw new BadRequestException('No file uploaded');
     }
@@ -26,22 +41,30 @@ export class UserController {
     return this.userService.uploadCsv(file.buffer, isDryRun);
   }
 
+  /**
+   *
+   *
+   * @param {Partial<User>} data
+   * @return {*}  {Promise<ValidateResponse>}
+   * @memberof UserController
+   */
   @Post('validate')
   async validateUser(@Body() data: Partial<User>): Promise<ValidateResponse> {
     return this.userService.validateUser(data);
   }
 
+  /**
+   *
+   *
+   * @param {Response} res
+   * @memberof UserController
+   */
   @Get('export')
   async exportCsv(@Res() res: Response) {
     const csvContent = await this.userService.exportCsv();
-    
+
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename="users.csv"');
     res.send(csvContent);
   }
-
-  @Get('users')
-  async getAllUsers() {
-    return this.userService.getAllUsers();
-  }
-} 
+}

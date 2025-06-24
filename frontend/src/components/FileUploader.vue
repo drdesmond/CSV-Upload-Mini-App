@@ -106,80 +106,80 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { uploadCsv } from '@/api'
-import type { UploadResponse } from '@/types/User'
+import { ref } from 'vue';
+import { uploadCsv } from '@/api';
+import type { UploadResponse } from '@/types/User';
 
 const emit = defineEmits<{
-  'upload-success': [result: UploadResponse]
-  'upload-error': [error: string]
-}>()
+  'upload-success': [result: UploadResponse];
+  'upload-error': [error: string];
+}>();
 
-const fileInput = ref<HTMLInputElement>()
-const isDragOver = ref(false)
-const isUploading = ref(false)
-const error = ref('')
-const dryRun = ref(false)
+const fileInput = ref<HTMLInputElement>();
+const isDragOver = ref(false);
+const isUploading = ref(false);
+const error = ref('');
+const dryRun = ref(false);
 
 const triggerFileInput = () => {
-  fileInput.value?.click()
-}
+  fileInput.value?.click();
+};
 
 const handleDragOver = (e: DragEvent) => {
-  e.preventDefault()
-  isDragOver.value = true
-}
+  e.preventDefault();
+  isDragOver.value = true;
+};
 
 const handleDragLeave = (e: DragEvent) => {
-  e.preventDefault()
-  isDragOver.value = false
-}
+  e.preventDefault();
+  isDragOver.value = false;
+};
 
 const handleDrop = (e: DragEvent) => {
-  e.preventDefault()
-  isDragOver.value = false
+  e.preventDefault();
+  isDragOver.value = false;
 
-  const files = e.dataTransfer?.files
+  const files = e.dataTransfer?.files;
   if (files && files.length > 0) {
-    handleFile(files[0])
+    handleFile(files[0]);
   }
-}
+};
 
 const handleFileSelect = (e: Event) => {
-  const target = e.target as HTMLInputElement
+  const target = e.target as HTMLInputElement;
   if (target.files && target.files.length > 0) {
-    handleFile(target.files[0])
+    handleFile(target.files[0]);
   }
-}
+};
 
 const handleFile = async (file: File) => {
   // Reset state
-  error.value = ''
-  isUploading.value = true
+  error.value = '';
+  isUploading.value = true;
 
   try {
     // Validate file type
     if (!file.name.toLowerCase().endsWith('.csv')) {
-      throw new Error('Please select a valid CSV file')
+      throw new Error('Please select a valid CSV file');
     }
 
     // Validate file size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
-      throw new Error('File size must be less than 10MB')
+      throw new Error('File size must be less than 10MB');
     }
 
-    const result = await uploadCsv(file, dryRun.value)
-    emit('upload-success', result)
+    const result = await uploadCsv(file, dryRun.value);
+    emit('upload-success', result);
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : 'Upload failed'
-    error.value = errorMessage
-    emit('upload-error', errorMessage)
+    const errorMessage = err instanceof Error ? err.message : 'Upload failed';
+    error.value = errorMessage;
+    emit('upload-error', errorMessage);
   } finally {
-    isUploading.value = false
+    isUploading.value = false;
     // Reset file input
     if (fileInput.value) {
-      fileInput.value.value = ''
+      fileInput.value.value = '';
     }
   }
-}
+};
 </script>

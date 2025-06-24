@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
@@ -7,15 +7,3 @@ import { RouterView } from 'vue-router'
     <RouterView />
   </div>
 </template>
-
-<style>
-#app {
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-}
-</style>

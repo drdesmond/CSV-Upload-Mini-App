@@ -8,4 +8,4 @@ import { MemoryStore } from './storage/memory.store';
   controllers: [UserController],
   providers: [UserService, MemoryStore],
 })
-export class AppModule {} 
+export class AppModule {}

@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { parse } from 'csv-parse';
@@ -13,7 +13,7 @@ export class UserService {
   async uploadCsv(fileBuffer: Buffer, dryRun: boolean = false): Promise<UploadResponse> {
     const csvContent = fileBuffer.toString('utf-8');
     const records = await this.parseCsv(csvContent);
-    
+
     const valid: User[] = [];
     const invalid: InvalidUserRow[] = [];
     const emailSet = new Set<string>();
@@ -31,7 +31,7 @@ export class UserService {
           invalid.push({
             rowIndex,
             data: record,
-            errors: errors.flatMap(error => Object.values(error.constraints || {}))
+            errors: errors.flatMap((error) => Object.values(error.constraints || {})),
           });
           continue;
         }
@@ -41,7 +41,7 @@ export class UserService {
           invalid.push({
             rowIndex,
             data: record,
-            errors: ['Duplicate email in this upload']
+            errors: ['Duplicate email in this upload'],
           });
           continue;
         }
@@ -52,7 +52,7 @@ export class UserService {
           invalid.push({
             rowIndex,
             data: record,
-            errors: ['Email already exists in database']
+            errors: ['Email already exists in database'],
           });
           continue;
         }
@@ -64,7 +64,7 @@ export class UserService {
           invalid.push({
             rowIndex,
             data: record,
-            errors: ['User must be at least 13 years old']
+            errors: ['User must be at least 13 years old'],
           });
           continue;
         }
@@ -80,16 +80,15 @@ export class UserService {
           const tempUser: User = {
             id: `temp-${i}`,
             ...userDto,
-            created_at: new Date()
+            created_at: new Date(),
           };
           valid.push(tempUser);
         }
-
       } catch (error) {
         invalid.push({
           rowIndex,
           data: record,
-          errors: [error.message || 'Unknown validation error']
+          errors: [error instanceof Error ? error.message : 'Unknown validation error'],
         });
       }
     }
@@ -106,7 +105,7 @@ export class UserService {
         return {
           valid: false,
           data,
-          errors: errors.flatMap(error => Object.values(error.constraints || {}))
+          errors: errors.flatMap((error) => Object.values(error.constraints || {})),
         };
       }
 
@@ -117,7 +116,7 @@ export class UserService {
         return {
           valid: false,
           data,
-          errors: ['User must be at least 13 years old']
+          errors: ['User must be at least 13 years old'],
         };
       }
 
@@ -127,7 +126,7 @@ export class UserService {
         return {
           valid: false,
           data,
-          errors: ['Email already exists in database']
+          errors: ['Email already exists in database'],
         };
       }
 
@@ -136,30 +135,26 @@ export class UserService {
         user: {
           id: 'temp',
           ...userDto,
-          created_at: new Date()
-        }
+          created_at: new Date(),
+        },
       };
     } catch (error) {
       return {
         valid: false,
         data,
-        errors: [error.message || 'Unknown validation error']
+        errors: [error instanceof Error ? error.message : 'Unknown validation error'],
       };
     }
   }
 
-  async getAllUsers(): Promise<User[]> {
-    return this.memoryStore.getAllUsers();
-  }
-
   async exportCsv(): Promise<string> {
     const users = await this.memoryStore.getAllUsers();
-    
+
     const headers = ['first_name', 'last_name', 'email', 'birthdate', 'phone_number'];
     const csvRows = [headers.join(',')];
-    
+
     for (const user of users) {
-      const row = headers.map(header => {
+      const row = headers.map((header) => {
         const value = user[header as keyof User];
         // Escape commas and quotes in CSV
         if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
@@ -169,23 +164,27 @@ export class UserService {
       });
       csvRows.push(row.join(','));
     }
-    
+
     return csvRows.join('\n');
   }
 
   private async parseCsv(csvContent: string): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      parse(csvContent, {
-        columns: true,
-        skip_empty_lines: true,
-        trim: true
-      }, (err, records) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(records);
-        }
-      });
+      parse(
+        csvContent,
+        {
+          columns: true,
+          skip_empty_lines: true,
+          trim: true,
+        },
+        (err, records) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(records);
+          }
+        },
+      );
     });
   }
 
@@ -193,11 +192,11 @@ export class UserService {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-    
+
     return age;
   }
-} 
+}

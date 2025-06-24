@@ -25,4 +25,4 @@ export interface ValidateResponse {
   rowIndex?: number;
   data?: Partial<User>;
   errors?: string[];
-} 
+}
