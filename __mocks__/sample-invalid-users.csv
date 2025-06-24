@@ -1,0 +1,11 @@
+first_name,last_name,email,birthdate,phone_number
+Bob,Johnson,bob.johnson@example.com,2005-03-10,+1555123456
+Diana,Davis,diana.davis@example.com,1995-01-25,invalid-phone
+Eve,Miller,eve.miller@example.com,2010-12-05,+1234567890
+Charlie,Wilson,charlie.wilson@example.com,1988-07-14,+12345678901
+Fiona,Clark,fiona.clark@example.com,1994-02-18,555-123-4567
+George,White,george.white@example.com,1983-11-12,invalid@email.com
+Helen,Martin,helen.martin@example.com,2008-09-30,+1234567890
+Ian,Thompson,ian.thompson@example.com,1997-06-25,123
+Julia,Robinson,julia.robinson@example.com,1984-04-07,not-a-number
+Kevin,Lewis,kevin.lewis@example.com,1996-08-15,+123456789012345 

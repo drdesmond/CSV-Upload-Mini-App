@@ -1,0 +1,9 @@
+first_name,last_name,email,birthdate,phone_number
+John,Doe,john.doe@example.com,1990-05-15,+1234567890
+Jane,Smith,jane.smith@example.com,1985-08-22,9876543210
+John,Doe,john.doe@example.com,1992-03-10,+1555123456
+Alice,Brown,alice.brown@example.com,1992-11-30,5551234567
+Jane,Smith,jane.smith@example.com,1988-07-14,5559876543
+Frank,Garcia,frank.garcia@example.com,1987-09-18,5559876543
+Alice,Brown,alice.brown@example.com,1995-01-25,+1234567890
+Grace,Lee,grace.lee@example.com,1993-04-12,+1234567890 
