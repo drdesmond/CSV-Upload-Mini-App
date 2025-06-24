@@ -1,0 +1,62 @@
+# Root-level ignore
+node_modules/
+dist/
+.DS_Store
+.env
+.env.local
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+pnpm-debug.log*
+lerna-debug.log*
+
+# Optional IDEs and OS
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+**/dist/
+**/build/
+
+# Dependency directories
+**/node_modules/
+
+# TypeScript
+*.tsbuildinfo
+
+# Tailwind CSS
+**/tailwind.css
+**/.tailwind/
+
+# Coverage reports
+coverage/
+**/coverage/
+
+# NestJS
+**/.env.*
+**/.next/
+**/.cache/
+
+# Vue
+**/public/
+**/.vite/
+**/.nuxt/
+
+# Backend
+backend/dist/
+backend/node_modules/
+backend/.env
+backend/.env.local
+
+# Frontend
+frontend/dist/
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
