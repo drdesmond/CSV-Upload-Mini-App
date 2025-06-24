@@ -215,80 +215,24 @@ Download all valid users as a CSV file.
 - Click "Download CSV" to export all valid users
 - The exported file will contain all successfully saved records
 
-## 🧪 Testing
+## Automated Testing Strategy
 
-A sample CSV file (`sample-users.csv`) is included for testing. It contains:
+**Note: No automated tests was not implemented due to time and requirements contraints.** This section outlines a testing approach to ensure code quality and reliability.
 
-- Valid user records
-- Records with validation errors (underage users, invalid phone numbers, etc.)
-- Duplicate email addresses
-
-## 🔒 Validation Rules
-
-### Frontend Validation (VeeValidate + Yup)
-
-- **Real-time validation** as users type
-- **Visual feedback** with red borders on invalid fields
-- **Custom error messages** for each field
-- **Age validation** ensuring users are 13+ years old
-- **Email format validation** with proper email regex
-- **Phone number validation** with international format support
-
-### Backend Validation (Class Validator)
-
-- **Email Validation**: Must be valid format and unique across all users
-- **Age Validation**: Users must be at least 13 years old
-- **Phone Number Validation**: 7-15 digits with optional + prefix
-- **Required Fields**: All fields are required and non-empty
-
-## 🏗️ Architecture Highlights
-
-### Frontend Architecture
-
-- **Component-based design** with Vue 3 Composition API
-- **VeeValidate integration** for robust form validation
-- **TypeScript throughout** for type safety
-- **Local state management** using Vue's reactive system
-- **Clean API layer** with fetch-based HTTP client
-
-### Backend Architecture
-
-- **NestJS modular structure** with dependency injection
-- **DTO-based validation** with Class Validator decorators
-- **In-memory storage** for session-based data persistence
-- **CSV processing** with robust error handling
-- **Global validation pipes** for consistent data validation
-
-## 🚀 Deployment
-
-### Backend Deployment
-
-```bash
-cd backend
-npm run build
-npm run start:prod
+```
+tests/
+├── unit/                 # Unit tests
+│   ├── components/      # Vue component tests
+│   ├── services/        # Business logic tests
+│   └── utils/           # Utility function tests
+├── integration/         # Integration tests
+│   ├── api/            # API integration tests
+│   └── components/     # Component integration tests
+└── e2e/                # End-to-end tests
+    ├── upload/         # File upload scenarios
+    └── validation/     # Validation workflows
 ```
 
-### Frontend Deployment
+#### Browser Testing approach
 
-```bash
-cd frontend
-npm run build
-# Deploy the dist/ folder to your hosting service
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Support
-
-If you encounter any issues or have questions, please open an issue on the repository.
+- For manual browser testing see [Test Cases](./TEST_CASES.md)

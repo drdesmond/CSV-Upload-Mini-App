@@ -4,14 +4,14 @@ This document describes the various sample CSV files provided for testing the ap
 
 ## 📁 Sample Files Overview
 
-| File                          | Purpose                 | Valid Records | Invalid Records | Test Focus                |
-| ----------------------------- | ----------------------- | ------------- | --------------- | ------------------------- |
-| `sample-valid-users.csv`      | All valid data          | 10            | 0               | Successful uploads        |
-| `sample-invalid-users.csv`    | All invalid data        | 0             | 10              | Error handling            |
-| `sample-mixed-users.csv`      | Mixed valid/invalid     | 5             | 5               | Partial success           |
-| `sample-duplicate-emails.csv` | Duplicate emails        | 3             | 5               | Duplicate validation      |
-| `sample-missing-fields.csv`   | Missing required fields | 1             | 6               | Required field validation |
-| `sample-edge-cases.csv`       | Boundary conditions     | 4             | 6               | Edge case handling        |
+| File                                    | Purpose                 | Valid Records | Invalid Records | Test Focus                |
+| --------------------------------------- | ----------------------- | ------------- | --------------- | ------------------------- |
+| `__mocks__/sample-valid-users.csv`      | All valid data          | 10            | 0               | Successful uploads        |
+| `__mocks__/sample-invalid-users.csv`    | All invalid data        | 0             | 10              | Error handling            |
+| `__mocks__/sample-mixed-users.csv`      | Mixed valid/invalid     | 5             | 5               | Partial success           |
+| `__mocks__/sample-duplicate-emails.csv` | Duplicate emails        | 3             | 5               | Duplicate validation      |
+| `__mocks__/sample-missing-fields.csv`   | Missing required fields | 1             | 6               | Required field validation |
+| `__mocks__/sample-edge-cases.csv`       | Boundary conditions     | 4             | 6               | Edge case handling        |
 
 ## 🧪 Detailed Test Cases
 
