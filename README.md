@@ -2,6 +2,15 @@
 
 A modern web application for uploading, validating, and managing CSV files containing user data. Built with Vue 3, TypeScript, Tailwind CSS, and NestJS.
 
+Test Live [Here](https://www.youtube.com/watch?v=aXolPqKZUXQ)
+
+## 🖥️ Watch the demo
+
+Watch Demo on [Youtube](https://www.youtube.com/watch?v=aXolPqKZUXQ)
+[![Watch the demo](./screenshot.png)](https://www.youtube.com/watch?v=aXolPqKZUXQ)
+
+_Video: A modern web application for uploading, validating, and managing CSV files containing user data. Built with Vue 3, TypeScript, Tailwind CSS, and NestJS._
+
 ## 🚀 Features
 
 - **Drag & Drop Upload**: Intuitive file upload with drag-and-drop support
