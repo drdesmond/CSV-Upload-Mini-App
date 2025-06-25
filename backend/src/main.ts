@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Get environment variables with fallbacks
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 4500;
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
   // Enable CORS for frontend

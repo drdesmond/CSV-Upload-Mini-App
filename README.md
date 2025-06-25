@@ -86,7 +86,7 @@ cd backend
 npm run start:dev
 ```
 
-The backend will be available at `http://localhost:3000`
+The backend will be available at `http://localhost:4500`
 
 **Terminal 2 - Frontend:**
 
